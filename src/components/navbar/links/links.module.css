@@ -39,3 +39,9 @@
       gap: 10px;
     }
   }
+
+  .logout{
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
