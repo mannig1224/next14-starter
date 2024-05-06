@@ -2,33 +2,24 @@ import styles from "./singlePost.module.css"
 import Image from "next/image";
 import { Suspense } from "react";
 import PostUser from "@/components/postUser/postUser";
-
-const getData = async (slug) => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`);
-
-  if (!res.ok){
-  throw new Error("Something went wrong");
-  }
-
-  return res.json();
-}
+import { getPost } from "@/lib/data";
 
 const SinglePostPage = async ({params}) => {
 
   const {slug} = params;
 
-    console.log(params)
-    const post = await getData(slug);
+    const post = await getPost(slug);
+    console.log(post)
     return (
       <div className={styles.container}>
-        <div className={styles.imgContainer}>
+        {post.img && <div className={styles.imgContainer}>
           <Image src="/about.png" 
           alt=""
           fill
           className={styles.img}/>
-        </div>
+        </div>}
         <div className={styles.textContainer}>
-          <h1 className={styles.title}>Title</h1>
+          <h1 className={styles.title}>{post?.title}</h1>
           <div className={styles.detail}>
             <Image
               className={styles.avatar}
@@ -45,7 +36,7 @@ const SinglePostPage = async ({params}) => {
               <span className={styles.deatialValue}>01.01.2024</span>
             </div>
           </div>
-          <div className={styles.content}>{post.body}</div>
+          <div className={styles.content}>{post.desc}</div>
         </div>
       </div>
     );
